@@ -5,11 +5,17 @@ For dispatch supervisors reviewing **recorded completed responses**. The API cal
 in that core. An individual late response does not imply a statistical signal; missing records
 can bias the imported completed-response rates. This service has no database or mock fallback.
 
-From the repository root, use Python 3.12 or 3.13. The local backend was verified
-on Python 3.13; frontend dependencies were installed with Node.js 24.22.0:
+Python **3.10 or newer is required** by the pinned `pydantic==2.14.1`; Python 3.9
+cannot install these requirements. Check the interpreter before creating the virtual
+environment. Use Python 3.12 or 3.13 for the verified setup: the core was verified
+on Python 3.12.14 and the local backend on Python 3.13.5. Frontend dependencies
+were installed with Node.js 24.22.0.
+
+From the repository root (replace `python3.13` with your installed Python 3.12 if needed):
 
 ```bash
-python3 -m venv .venv
+python3.13 --version
+python3.13 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r app/requirements.txt
 npm --prefix app/frontend ci
@@ -41,6 +47,8 @@ No traceback or imported data are returned on runtime errors. CORS permits publi
 
 Deployment belongs to Hayden: `bash app/manifestme.sh` writes his manifest;
 `bash app/deployme.sh` publishes using configured rsconnect credentials/environment.
+Hayden should select an available verified Python 3.12/3.13 runtime for Connect and
+set his `app/.python-version` consistently; the requirements cannot run on Python 3.9.
 These scripts require separately installed `rsconnect-python` and are not run by startup.
 Keep credentials outside source and chat. The flat deployment entry point is `app:app`.
 
